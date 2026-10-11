@@ -25,10 +25,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r and not engine.round_active:
+                    engine.start_new_round()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                engine.handle_click(event.pos)
+                if engine.round_active:
+                    engine.handle_click(event.pos)
 
-        engine.update()
+        engine.update(clock.get_time() / 1000.0)
         engine.draw(screen, font)
 
         pygame.display.flip()
